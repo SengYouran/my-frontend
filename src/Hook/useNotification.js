@@ -22,7 +22,7 @@ function useNotification({ url, setNotification, pages, auth }) {
       if (!auth?.employee_id) return;
 
       const res = await fetch(
-        `${url}/notification?employee_id=${auth.employee_id}`,
+        `${url}/notification?employee_id=${auth?.employee_id}`,
       );
 
       const data = await res.json();

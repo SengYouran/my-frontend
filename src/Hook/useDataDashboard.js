@@ -21,7 +21,10 @@ function useDataDashboard({ setTotalPaidUnpaid, url, auth }) {
     try {
       setLoadingDashboard(true);
       const res = await fetch(`${url}/dashboard`, { credentials: "include" });
-      if (!res.ok) throw new Error("Fail to fetch data dashboard");
+       if (!res.ok) {
+        console.log("Dashboard fetch failed:", res.status);
+        return;
+      }
       const data = await res.json();
       setTotalPaidUnpaid(
         data.totalPaidUnpaid || data.total_paid_unpaid_student,
