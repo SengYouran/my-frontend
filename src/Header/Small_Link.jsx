@@ -100,7 +100,7 @@ function Small_Link() {
       setLoadLink(current.name);
     }
   }, [location.pathname]);
-  const roles = auth?.role.toLowerCase();
+  const roles = auth?.role?.toLowerCase();
   // Sync submenu Setting based on URL
   useEffect(() => {
     const currentSetting = settingLinks.find((item) =>
@@ -133,7 +133,7 @@ function Small_Link() {
         </div>
         <ul className="flex flex-col gap-1 text-sm mt-8 w-full">
           {navLinks
-            .filter((link) => link?.roles.includes(roles))
+            .filter((link) => link?.roles?.includes(roles))
             .map((item) => {
               const isActive = active === item.id;
 
