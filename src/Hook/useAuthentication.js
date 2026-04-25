@@ -15,7 +15,7 @@ function useAuthentication({ setLoading, url }) {
       setLoading(true); // ✅ ADD
 
       const res = await fetch(
-        `https://my-backend-production-b2d1.up.railway.app/login/me`,
+        `https://my-backend-sandy-zeta.vercel.app/login/me`,
         {
           credentials: "include",
         },
@@ -60,7 +60,7 @@ function useAuthentication({ setLoading, url }) {
       setLoading(true);
 
       const response = await fetch(
-        `https://my-backend-production-b2d1.up.railway.app/login`,
+        `https://my-backend-sandy-zeta.vercel.app/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,13 +87,10 @@ function useAuthentication({ setLoading, url }) {
 
   // 🚪 LOGOUT
   const logout = async () => {
-    await fetch(
-      `https://my-backend-production-b2d1.up.railway.app/login/logout`,
-      {
-        method: "POST",
-        credentials: "include",
-      },
-    );
+    await fetch(`https://my-backend-sandy-zeta.vercel.app/login/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
 
     setAuth(null);
     setRedirect(false);
