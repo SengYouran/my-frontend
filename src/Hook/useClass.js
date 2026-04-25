@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import auth from "../../../back_end/Middlewares/auth";
 
 const useClass = ({ url, setLoading, auth }) => {
   const [formClass, setFormClass] = useState(false);
