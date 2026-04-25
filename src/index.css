@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@theme {
+  --font-rowdies: Rowdies, sans-serif;
+  --font-popins: Poppins, sans-serif;
+}
+@import "tailwindcss";
+body {
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: rgb(250, 250, 247);
+}
+.anime {
+  background-image: url(assets/textColor.webp);
+  background-clip: text;
+  background-size: 300% 300%;
+  color: transparent;
+  animation: animate 8s ease infinite;
+}
+@keyframes animate {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
+.change_color {
+  animation: change 5s ease infinite;
+}
+@keyframes change {
+  0% {
+    background-color: #3b82f6;
+  }
+  50% {
+    background-color: #f59e0b;
+  }
+  100% {
+    background-color: #ef4444;
+  }
+}
+.custom-class {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.animate-pulse {
+  animation-duration: 1.2s;
+}
+.loader {
+  animation: upDown 1s infinite ease-in-out;
+}
+
+.loader:nth-child(1) {
+  animation-delay: 0s;
+}
+.loader:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loader:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes upDown {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(2);
+  }
+}
+.recharts-wrapper:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-slide {
+  animation: slide 10s linear infinite;
+}
+
+.delay-2000 {
+  animation-delay: 2s;
+}
+.react-datepicker-wrapper {
+  display: inline-block;
+}
+.fade-in {
+  opacity: 0;
+  transform: translate(-50px, -50px); /* top-left */
+  transition: all 0.6s ease-out;
+}
+
+.fade-in.active {
+  opacity: 1;
+  transform: translate(0, 0); /* ទៅទីតាំងដើម */
+}
+
+.hiddenScroll::-webkit-scrollbar{
+  width: 1px;
+  background: white;
+}
