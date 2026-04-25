@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import auth from "../../../back_end/Middlewares/auth";
 
-const useClass = ({ url, setLoading }) => {
+const useClass = ({ url, setLoading, auth }) => {
   const [formClass, setFormClass] = useState(false);
   const [className, setClassName] = useState([]);
 
@@ -21,9 +22,10 @@ const useClass = ({ url, setLoading }) => {
     }
   }
   useEffect(() => {
+    if (!auth) return;
     getClassName();
   }, [url]);
-  
+
   return {
     formClass,
     setFormClass,
