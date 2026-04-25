@@ -212,7 +212,7 @@ function Context({ children }) {
     handleSearchStudents,
     active,
     setActive,
-    updateStudentInfomationf,
+    updateStudentInfomation,
   } = useStudent({
     url,
     setLocalLoading,
