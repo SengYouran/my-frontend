@@ -11,27 +11,30 @@ function useAuthentication({ setLoading, url }) {
   });
   // 🔁 GET CURRENT USER (Fix reload)
   const getMe = async () => {
-  try {
-    setLoading(true); // ✅ ADD
+    try {
+      setLoading(true); // ✅ ADD
 
-    const res = await fetch(`${url}/login/me`, {
-      credentials: "include",
-    });
+      const res = await fetch(
+        `https://my-backend-production-b2d1.up.railway.app/login/me`,
+        {
+          credentials: "include",
+        },
+      );
 
-    if (!res.ok) {
+      if (!res.ok) {
+        setAuth(null);
+        setLoading(false); // ✅ ADD
+        return;
+      }
+
+      const data = await res.json();
+      setAuth(data);
+      setLoading(false); // ✅ ADD
+    } catch (err) {
       setAuth(null);
       setLoading(false); // ✅ ADD
-      return;
     }
-
-    const data = await res.json();
-    setAuth(data);
-    setLoading(false); // ✅ ADD
-  } catch (err) {
-    setAuth(null);
-    setLoading(false); // ✅ ADD
-  }
-};
+  };
 
   // 🔄 On app load
   useEffect(() => {
@@ -56,12 +59,15 @@ function useAuthentication({ setLoading, url }) {
     try {
       setLoading(true);
 
-      const response = await fetch(`${url}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // 🔥 IMPORTANT
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        `https://my-backend-production-b2d1.up.railway.app/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // 🔥 IMPORTANT
+          body: JSON.stringify(user),
+        },
+      );
 
       if (!response.ok) {
         setLoginFalse(true);
@@ -81,10 +87,13 @@ function useAuthentication({ setLoading, url }) {
 
   // 🚪 LOGOUT
   const logout = async () => {
-    await fetch(`${url}/login/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
+    await fetch(
+      `https://my-backend-production-b2d1.up.railway.app/login/logout`,
+      {
+        method: "POST",
+        credentials: "include",
+      },
+    );
 
     setAuth(null);
     setRedirect(false);

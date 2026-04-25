@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 function useReport({ url, auth, pages, book_id }) {
   const [typeNameReport, setTypeNameReport] = useState(null);
-  console.log(typeNameReport);
   useEffect(() => {
     if (!auth) return;
 
