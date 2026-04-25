@@ -4,13 +4,14 @@ import { NavLink } from "react-router-dom";
 
 function Small_Profile() {
   const { OneEmp, setShowHidden } = useDataContext();
+  const BASE_URL = "https://my-backend-sandy-zeta.vercel.app";
   return (
     <div className="flex md:hidden justify-between items-center bg-white shadow-[0_4px_10px_rgba(59,130,246,0.2)] p-2 rounded-xl fixed top-0 left-0 z-70 w-full">
       <NavLink to={"/account"} className="cursor-pointer">
         <div className="flex items-center gap-2">
           <img
             className="w-10 h-10 rounded-[50%] border-white border-2 bg-gradient-to-r from-blue-500 to-purple-600 p-1"
-            src={`http://localhost:3000/uploads/${OneEmp?.profile}`}
+            src={`${BASE_URL}/uploads/${OneEmp?.profile}`}
             alt="Proile Employee"
           />
           <div className="flex flex-col justify-center">

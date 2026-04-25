@@ -13,6 +13,7 @@ function Header_Link_Navbar() {
     OneEmp,
     loading,
   } = useDataContext();
+  const BASE_URL = "https://my-backend-sandy-zeta.vercel.app";
   return (
     <div
       className={`${"hidden md:flex"} flex-col bg-white rounded-r-xl shadow-[-4px_0_10px_rgba(75,85,99,1)] fixed z-80 left-0 top-0 sm:w-[20%] h-screen`}
@@ -30,7 +31,7 @@ function Header_Link_Navbar() {
             <div className="flex items-center gap-2 mt-4 ml-4 ">
               <img
                 className="xl:w-20 xl:h-20 w-14 h-14 rounded-[50%] border-white border-2 bg-gradient-to-r from-blue-500 to-purple-600 p-1"
-                src={`http://localhost:3000/uploads/${OneEmp?.profile}`}
+                src={`${BASE_URL}/uploads/${OneEmp?.profile}`}
                 alt="Proile Employee"
               />
 
