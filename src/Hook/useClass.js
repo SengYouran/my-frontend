@@ -24,7 +24,7 @@ const useClass = ({ url, setLoading, auth }) => {
   useEffect(() => {
     if (!auth) return;
     getClassName();
-  }, [url]);
+  }, [url,auth]);
 
   return {
     formClass,
