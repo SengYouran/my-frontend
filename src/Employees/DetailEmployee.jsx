@@ -6,7 +6,7 @@ function DetailEmployee() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { views, setViews, listEmployee, loadingEmployee } = useDataContext();
-
+  const BASE_URL = "https://my-backend-sandy-zeta.vercel.app";
   if (!views) return null;
   const employee = listEmployee?.results?.find((e) => e.id === Number(id));
 
@@ -44,7 +44,7 @@ function DetailEmployee() {
             <div className="relative backdrop-blur bg-white/70 border border-white/40 rounded-2xl text-white rounded-3xl p-6 shadow-lg">
               <div className="flex flex-col items-center text-center">
                 <img
-                  src={`http://localhost:3000/uploads/${employee.profile}`}
+                  src={`${BASE_URL}/uploads/${employee.profile}`}
                   alt="profile"
                   className="w-28 h-28 rounded-full border-4 border-white shadow-lg mb-4"
                 />

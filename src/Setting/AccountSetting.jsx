@@ -4,6 +4,7 @@ import Security_Health from "./Security_Health";
 
 function AccountSetting() {
   const { OneEmp } = useDataContext();
+  const BASE_URL = "https://my-backend-sandy-zeta.vercel.app";
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex flex-col gap-2">
@@ -23,7 +24,7 @@ function AccountSetting() {
                 PROFILE IDENTITY
               </h2>
               <img
-                src={`http://localhost:3000/uploads/${OneEmp.profile}`}
+                src={`${BASE_URL}/uploads/${OneEmp.profile}`}
                 alt="profile"
                 className="w-40 h-40 border-4"
               />
