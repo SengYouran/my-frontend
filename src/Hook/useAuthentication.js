@@ -36,7 +36,7 @@ function useAuthentication({ setLoading, url }) {
   // 🔄 On app load
   useEffect(() => {
     getMe();
-  }, []);
+  }, [url]);
   // Handle input
   const handleChange = (e) => {
     const { name, value } = e.target;
