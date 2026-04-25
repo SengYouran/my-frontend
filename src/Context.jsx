@@ -71,7 +71,7 @@ function Context({ children }) {
     start_time: "",
     end_time: "",
   });
-  const url = "my-backend-production-b2d1.up.railway.app";
+  const url = "https://my-backend-production-b2d1.up.railway.app";
   const {
     loginFalse,
     setLoginFalse,
