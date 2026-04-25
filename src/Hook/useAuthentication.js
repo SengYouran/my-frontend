@@ -28,6 +28,7 @@ function useAuthentication({ setLoading, url }) {
       }
 
       const data = await res.json();
+      console.log(data);
       setAuth(data);
       setLoading(false); // ✅ ADD
     } catch (err) {

@@ -7,7 +7,7 @@ function Login() {
     useDataContext();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
+  console.log(user);
   useEffect(() => {
     if (redirect) navigate("/dashboard");
   }, [redirect, navigate]);
