@@ -10,7 +10,7 @@ function Large() {
 
   const [date, setDate] = useState(new Date());
 
-  // ⏰ Real-time clock
+  // Real-time clock
   useEffect(() => {
     const timer = setInterval(() => {
       setDate(new Date());
@@ -19,14 +19,6 @@ function Large() {
     return () => clearInterval(timer);
   }, []);
 
-  // 🔐 Auth check (fixed)
-  useEffect(() => {
-    if (loading) return;
-
-    if (!auth) {
-      navigate("/login", { replace: true });
-    }
-  }, [auth, loading, navigate]);
 
   const formatted = new Intl.DateTimeFormat("en-US", {
     weekday: "long",
