@@ -1,29 +1,23 @@
 import { useEffect, useState } from "react";
 
-function useAuthentication({ setLoading }) {
+function useAuthentication({ setLoading, url }) {
   const [loginFalse, setLoginFalse] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [auth, setAuth] = useState(null);
-  const [token, setToken] = useState(null);
 
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-
-  // =========================
-  // GET USER
-  // =========================
-  const getMe = async (currentToken) => {
+  //GET CURRENT USER (Fix reload)
+  const getMe = async () => {
     try {
       setLoading(true);
 
       const res = await fetch(
-        "https://my-backend-sandy-zeta.vercel.app/login/me",
+        `https://my-backend-sandy-zeta.vercel.app/login/me`,
         {
-          headers: {
-            Authorization: `Bearer ${currentToken}`,
-          },
+          credentials: "include",
         },
       );
 
@@ -42,26 +36,17 @@ function useAuthentication({ setLoading }) {
     }
   };
 
-  // =========================
-  // RUN WHEN TOKEN CHANGES
-  // =========================
+  // On app load
   useEffect(() => {
-    if (token) {
-      getMe(token);
-    }
-  }, [token]);
-
-  // =========================
-  // INPUT
-  // =========================
+    getMe();
+  }, []);
+  // Handle input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  // =========================
   // LOGIN
-  // =========================
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginFalse(false);
@@ -75,81 +60,41 @@ function useAuthentication({ setLoading }) {
       setLoading(true);
 
       const response = await fetch(
-        "https://my-backend-sandy-zeta.vercel.app/login",
+        `https://my-backend-sandy-zeta.vercel.app/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include", 
           body: JSON.stringify(user),
-          credentials: "include",
         },
       );
-
-      const data = await response.json();
 
       if (!response.ok) {
         setLoginFalse(true);
         setLoading(false);
         return;
       }
-
-      setToken(data.accessToken);
+      await getMe();
+      // JWT saved in cookie (no user here)
       setRedirect(true);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       setLoginFalse(true);
+      console.error(error);
     }
   };
 
-  // =========================
-  // LOGOUT
-  // =========================
+  //LOGOUT
   const logout = async () => {
-    await fetch("https://my-backend-sandy-zeta.vercel.app/login/logout", {
+    await fetch(`https://my-backend-sandy-zeta.vercel.app/login/logout`, {
       method: "POST",
       credentials: "include",
     });
 
     setAuth(null);
-    setToken(null);
     setRedirect(false);
   };
-
-  // =========================
-  // REFRESH TOKEN (FIXED LOOP SAFE)
-  // =========================
-  const refreshToken = async () => {
-    try {
-      const res = await fetch(
-        "https://my-backend-sandy-zeta.vercel.app/login/refresh",
-        {
-          method: "POST",
-          credentials: "include",
-        },
-      );
-
-      if (!res.ok) {
-        setAuth(null);
-        return;
-      }
-
-      const data = await res.json();
-
-      setToken(data.accessToken);
-
-      // 🔥 IMPORTANT: immediately fetch user after refresh
-      getMe(data.accessToken);
-    } catch (err) {
-      console.log("refresh error:", err);
-    }
-  };
-
-  // =========================
-  // AUTO RESTORE SESSION (FIXED)
-  // =========================
-  useEffect(() => {
-    refreshToken(); // run once on load
-  }, []);
 
   return {
     loginFalse,
