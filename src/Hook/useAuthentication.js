@@ -12,7 +12,7 @@ function useAuthentication({ setLoading, url }) {
   // 🔁 GET CURRENT USER (Fix reload)
   const getMe = async () => {
     try {
-      setLoading(true); // ✅ ADD
+      setLoading(true); 
 
       const res = await fetch(
         `https://my-backend-sandy-zeta.vercel.app/login/me`,
@@ -23,17 +23,16 @@ function useAuthentication({ setLoading, url }) {
 
       if (!res.ok) {
         setAuth(null);
-        setLoading(false); // ✅ ADD
+        setLoading(false); 
         return;
       }
 
       const data = await res.json();
-      console.log(data);
       setAuth(data);
-      setLoading(false); // ✅ ADD
+      setLoading(false); 
     } catch (err) {
       setAuth(null);
-      setLoading(false); // ✅ ADD
+      setLoading(false); 
     }
   };
 
@@ -76,7 +75,7 @@ function useAuthentication({ setLoading, url }) {
         return;
       }
       await getMe();
-      // 👉 JWT saved in cookie (no user here)
+      // JWT saved in cookie (no user here)
       setRedirect(true);
       setLoading(false);
     } catch (error) {
@@ -86,7 +85,7 @@ function useAuthentication({ setLoading, url }) {
     }
   };
 
-  // 🚪 LOGOUT
+  // LOGOUT
   const logout = async () => {
     await fetch(`https://my-backend-sandy-zeta.vercel.app/login/logout`, {
       method: "POST",

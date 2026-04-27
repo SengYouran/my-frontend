@@ -86,7 +86,6 @@ function Link_Pages({
   const { setLoadLink } = useDataContext();
   const location = useLocation();
   const roles = auth?.role?.toLowerCase() || "";
-  console.log(roles,":ROLE");
   const [activeSetting, setActiveSetting] = useState("");
   const [bgSetting, setBgSetting] = useState("");
 

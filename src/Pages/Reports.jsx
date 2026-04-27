@@ -23,7 +23,7 @@ function Reports() {
 
   const end = Math.min(page * limit, total);
 
-  // ✅ clean render logic
+  // clean render logic
   function renderReport() {
     if (loadingReport) {
       return <Skeleton_attendance_report />;
