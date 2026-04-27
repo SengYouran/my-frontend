@@ -1,52 +1,67 @@
 import { useEffect, useState } from "react";
 
-function useAuthentication({ setLoading, url }) {
+function useAuthentication({ setLoading }) {
   const [loginFalse, setLoginFalse] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [auth, setAuth] = useState(null);
+  const [token, setToken] = useState(null);
 
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  // 🔁 GET CURRENT USER (Fix reload)
-  const getMe = async () => {
+
+  // =========================
+  // GET CURRENT USER
+  // =========================
+  const getMe = async (currentToken) => {
     try {
-      setLoading(true); 
+      setLoading(true);
 
       const res = await fetch(
-        `https://my-backend-sandy-zeta.vercel.app/login/me`,
+        "https://my-backend-sandy-zeta.vercel.app/login/me",
         {
-          credentials: "include",
-        },
+          headers: {
+            Authorization: `Bearer ${currentToken || token}`,
+          },
+        }
       );
 
       if (!res.ok) {
         setAuth(null);
-        setLoading(false); 
+        setLoading(false);
         return;
       }
 
       const data = await res.json();
       setAuth(data);
-      setLoading(false); 
+      setLoading(false);
     } catch (err) {
       setAuth(null);
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
-  // 🔄 On app load
+  // =========================
+  // AUTO RUN WHEN TOKEN CHANGES
+  // =========================
   useEffect(() => {
-    getMe();
-  }, []);
-  // Handle input
+    if (token) {
+      getMe(token); // FIX: wait for token
+    }
+  }, [token]);
+
+  // =========================
+  // INPUT HANDLER
+  // =========================
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🔑 LOGIN
+  // =========================
+  // LOGIN
+  // =========================
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginFalse(false);
@@ -60,42 +75,86 @@ function useAuthentication({ setLoading, url }) {
       setLoading(true);
 
       const response = await fetch(
-        `https://my-backend-sandy-zeta.vercel.app/login`,
+        "https://my-backend-sandy-zeta.vercel.app/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          credentials: "include", // 🔥 IMPORTANT
           body: JSON.stringify(user),
-        },
+          credentials: "include",
+        }
       );
+
+      const data = await response.json();
 
       if (!response.ok) {
         setLoginFalse(true);
         setLoading(false);
         return;
       }
-      await getMe();
-      // JWT saved in cookie (no user here)
-      setRedirect(true);
+
+      // =========================
+      // FIX ORDER (IMPORTANT)
+      // =========================
+      setToken(data.accessToken); // FIRST
+      setRedirect(true);          // THEN
       setLoading(false);
     } catch (error) {
       setLoading(false);
       setLoginFalse(true);
-      console.error(error);
     }
   };
 
+  // =========================
   // LOGOUT
+  // =========================
   const logout = async () => {
-    await fetch(`https://my-backend-sandy-zeta.vercel.app/login/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
+    await fetch(
+      "https://my-backend-sandy-zeta.vercel.app/login/logout",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
 
     setAuth(null);
+    setToken(null);
     setRedirect(false);
   };
 
+  // =========================
+  // REFRESH TOKEN (OPTIONAL BUT PRO)
+  // =========================
+  const refreshToken = async () => {
+    try {
+      const res = await fetch(
+        "https://my-backend-sandy-zeta.vercel.app/login/refresh",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setToken(data.accessToken);
+      }
+    } catch (err) {
+      console.log("refresh error", err);
+    }
+  };
+
+  // =========================
+  // AUTO REFRESH ON LOAD
+  // =========================
+  useEffect(() => {
+    if (!token) {
+      refreshToken();
+    }
+  }, []);
+
+  // =========================
+  // RETURN
+  // =========================
   return {
     loginFalse,
     handleChange,
