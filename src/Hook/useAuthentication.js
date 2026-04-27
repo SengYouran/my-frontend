@@ -24,7 +24,7 @@ function useAuthentication({ setLoading }) {
           headers: {
             Authorization: `Bearer ${currentToken || token}`,
           },
-        }
+        },
       );
 
       if (!res.ok) {
@@ -81,7 +81,7 @@ function useAuthentication({ setLoading }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(user),
           credentials: "include",
-        }
+        },
       );
 
       const data = await response.json();
@@ -96,7 +96,7 @@ function useAuthentication({ setLoading }) {
       // FIX ORDER (IMPORTANT)
       // =========================
       setToken(data.accessToken); // FIRST
-      setRedirect(true);          // THEN
+      setRedirect(true); // THEN
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -108,13 +108,10 @@ function useAuthentication({ setLoading }) {
   // LOGOUT
   // =========================
   const logout = async () => {
-    await fetch(
-      "https://my-backend-sandy-zeta.vercel.app/login/logout",
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
+    await fetch("https://my-backend-sandy-zeta.vercel.app/login/logout", {
+      method: "POST",
+      credentials: "include",
+    });
 
     setAuth(null);
     setToken(null);
@@ -125,22 +122,18 @@ function useAuthentication({ setLoading }) {
   // REFRESH TOKEN (OPTIONAL BUT PRO)
   // =========================
   const refreshToken = async () => {
-    try {
-      const res = await fetch(
-        "https://my-backend-sandy-zeta.vercel.app/login/refresh",
-        {
-          method: "POST",
-          credentials: "include",
-        }
-      );
+    const res = await fetch(
+      "https://my-backend-sandy-zeta.vercel.app/login/refresh",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${refreshTokenState}`,
+        },
+      },
+    );
 
-      if (res.ok) {
-        const data = await res.json();
-        setToken(data.accessToken);
-      }
-    } catch (err) {
-      console.log("refresh error", err);
-    }
+    const data = await res.json();
+    setToken(data.accessToken);
   };
 
   // =========================

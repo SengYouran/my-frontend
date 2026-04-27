@@ -3,13 +3,13 @@ import { useDataContext } from "../Context";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const { loginFalse, loading, handleChange, handleLogin, user, redirect } =
+  const { loginFalse, loading, handleChange, handleLogin, user, auth } =
     useDataContext();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (redirect) navigate("/dashboard");
-  }, [redirect, navigate]);
+    if (auth) navigate("/dashboard");
+  }, [auth, navigate]);
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-slate-100 overflow-hidden">
       {/* ===== Animated Background Lines ===== */}
