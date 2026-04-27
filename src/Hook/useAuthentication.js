@@ -24,7 +24,7 @@ function useAuthentication({ setLoading }) {
           headers: {
             Authorization: `Bearer ${currentToken || token}`,
           },
-        },
+        }
       );
 
       if (!res.ok) {
@@ -43,11 +43,11 @@ function useAuthentication({ setLoading }) {
   };
 
   // =========================
-  // AUTO RUN WHEN TOKEN CHANGES
+  // RUN WHEN TOKEN CHANGES
   // =========================
   useEffect(() => {
     if (token) {
-      getMe(token); // FIX: wait for token
+      getMe(token);
     }
   }, [token]);
 
@@ -81,7 +81,7 @@ function useAuthentication({ setLoading }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(user),
           credentials: "include",
-        },
+        }
       );
 
       const data = await response.json();
@@ -95,8 +95,8 @@ function useAuthentication({ setLoading }) {
       // =========================
       // FIX ORDER (IMPORTANT)
       // =========================
-      setToken(data.accessToken); // FIRST
-      setRedirect(true); // THEN
+      setToken(data.accessToken);
+      setRedirect(true);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -108,10 +108,13 @@ function useAuthentication({ setLoading }) {
   // LOGOUT
   // =========================
   const logout = async () => {
-    await fetch("https://my-backend-sandy-zeta.vercel.app/login/logout", {
-      method: "POST",
-      credentials: "include",
-    });
+    await fetch(
+      "https://my-backend-sandy-zeta.vercel.app/login/logout",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
 
     setAuth(null);
     setToken(null);
@@ -119,21 +122,25 @@ function useAuthentication({ setLoading }) {
   };
 
   // =========================
-  // REFRESH TOKEN (OPTIONAL BUT PRO)
+  // REFRESH TOKEN (FIXED)
   // =========================
   const refreshToken = async () => {
-    const res = await fetch(
-      "https://my-backend-sandy-zeta.vercel.app/login/refresh",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${refreshTokenState}`,
-        },
-      },
-    );
+    try {
+      const res = await fetch(
+        "https://my-backend-sandy-zeta.vercel.app/login/refresh",
+        {
+          method: "POST",
+          credentials: "include", // 🔥 IMPORTANT FIX
+        }
+      );
 
-    const data = await res.json();
-    setToken(data.accessToken);
+      if (!res.ok) return;
+
+      const data = await res.json();
+      setToken(data.accessToken);
+    } catch (err) {
+      console.log("refresh error:", err);
+    }
   };
 
   // =========================
