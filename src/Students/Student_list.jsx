@@ -10,6 +10,7 @@ import SearchStudent from "./SearchStudent";
 import Pagination from "../Pagination/Pagination";
 import Card_Student_Under_Teacher from "./Card_Student_Under_Teacher";
 import SkeletonStudentTable from "./SkeletonStudentTable";
+import Form_Student from "../Accounting/Form_Student";
 
 function Student_list() {
   const {
@@ -134,7 +135,9 @@ function Student_list() {
   }
   return (
     <div className="flex flex-col">
-      {newStudent ? null : (
+      {newStudent ? (
+        <Form_Student />
+      ) : (
         <div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">

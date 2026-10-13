@@ -26,7 +26,9 @@ function useTeacher({ url }) {
   async function handleGetAllTeacher() {
     setLoadingTeacher(true);
     try {
-      const response = await fetch(`${url}/teacher`);
+      const response = await fetch(`${url}/teacher`, {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch employees");
       }
@@ -43,7 +45,7 @@ function useTeacher({ url }) {
   async function getTeacherBook() {
     try {
       setLoadingTeacher(true);
-      const res = await fetch(`${url}/teacherBook`);
+      const res = await fetch(`${url}/teacherBook`, { credentials: "include" });
       if (!res.ok) {
         throw new Error("Fail to fetch Teacher Book");
       }
@@ -76,6 +78,7 @@ function useTeacher({ url }) {
           "Content-Type": "Application/json",
         },
         body: JSON.stringify(teacherBook),
+        credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) {
@@ -105,6 +108,7 @@ function useTeacher({ url }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formTeacher),
+        credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);

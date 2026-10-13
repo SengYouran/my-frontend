@@ -29,7 +29,6 @@ function useDataDashboard({ setTotalPaidUnpaid, url, auth }) {
       setTotalPaidUnpaid(
         data.totalPaidUnpaid || data.total_paid_unpaid_student,
       );
-      console.log(data.summary)
       setAmount(data.summary || data.total_month_year_register_transport);
       setchartStudentPaymentAmount(
         data.chartAmount || data.chart_total_student_amount,

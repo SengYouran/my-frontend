@@ -9,17 +9,14 @@ function useAuthentication({ setLoading, url }) {
     email: "",
     password: "",
   });
-  //GET CURRENT USER (Fix reload)
+  //GET CURRENT USER (Fix reload)https://my-backend-sandy-zeta.vercel.app/
   const getMe = async () => {
     try {
       setLoading(true);
 
-      const res = await fetch(
-        `https://my-backend-sandy-zeta.vercel.app/login/me`,
-        {
-          credentials: "include",
-        },
-      );
+      const res = await fetch(`https://my-backend-sandy-zeta.vercel.app/login/me`, {
+        credentials: "include",
+      });
 
       if (!res.ok) {
         setAuth(null);
@@ -59,15 +56,12 @@ function useAuthentication({ setLoading, url }) {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `https://my-backend-sandy-zeta.vercel.app/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include", 
-          body: JSON.stringify(user),
-        },
-      );
+      const response = await fetch(`https://my-backend-sandy-zeta.vercel.app/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(user),
+      });
 
       if (!response.ok) {
         setLoginFalse(true);

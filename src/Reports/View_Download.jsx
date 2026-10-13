@@ -20,7 +20,7 @@ function View_Download({ show, setShow }) {
   }, [setShow]);
 
   const handleSelect = (value) => {
-    const newLimit = value === "All" ? 0 : Number(value); // 0 = fetch all
+    const newLimit = value === "All" ? 0 : Number(value);
     setPages((prev) => ({
       ...prev,
       reporting: {

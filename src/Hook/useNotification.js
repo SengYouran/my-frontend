@@ -14,15 +14,15 @@ function useNotification({ url, setNotification, pages, auth }) {
     descriptions: "",
   });
 
-  // =========================
   // GET NOTIFICATIONS (POLLING)
-  // =========================
+
   async function getNotification() {
     try {
       if (!auth?.employee_id) return;
 
       const res = await fetch(
         `${url}/notification?employee_id=${auth?.employee_id}`,
+        { credentials: "include" },
       );
 
       const data = await res.json();
@@ -50,7 +50,7 @@ function useNotification({ url, setNotification, pages, auth }) {
     }
   }
 
-  // 🔥 POLLING (SAFE VERSION)
+  // POLLING (SAFE VERSION)
   useEffect(() => {
     if (!auth?.employee_id) return;
 
@@ -76,9 +76,7 @@ function useNotification({ url, setNotification, pages, auth }) {
     return () => clearInterval(interval);
   }, [auth?.employee_id]);
 
-  // =========================
   // GET RECEIVER
-  // =========================
   async function getReceiver() {
     try {
       const { page, limit } = pages.receiver;
@@ -87,6 +85,7 @@ function useNotification({ url, setNotification, pages, auth }) {
 
       const res = await fetch(
         `${url}/notification/receiver?page=${page}&limit=${limit}`,
+        { credentials: "include" },
       );
 
       const data = await res.json();
@@ -105,9 +104,7 @@ function useNotification({ url, setNotification, pages, auth }) {
     getReceiver();
   }, [pages.receiver.page, pages.receiver.limit]);
 
-  // =========================
   // FORM CHANGE
-  // =========================
   function handleChangeNotification(e) {
     setFormNotification((prev) => ({
       ...prev,
@@ -115,9 +112,7 @@ function useNotification({ url, setNotification, pages, auth }) {
     }));
   }
 
-  // =========================
   // SEND NOTIFICATION
-  // =========================
   async function sendNotification() {
     const { sender_id, receiver_id, title, descriptions } = formNotification;
 
@@ -141,7 +136,7 @@ function useNotification({ url, setNotification, pages, auth }) {
       if (!res.ok)
         throw new Error(data.message || "Fail to insert notification");
 
-      // 🔥 instant refresh
+      // instant refresh
       await getNotification();
 
       // reset form (SAFE)
@@ -161,9 +156,6 @@ function useNotification({ url, setNotification, pages, auth }) {
     }
   }
 
-  // =========================
-  // RETURN
-  // =========================
   return {
     readNotification,
     storeReceiver,

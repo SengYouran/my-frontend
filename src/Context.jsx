@@ -213,6 +213,7 @@ function Context({ children }) {
     active,
     setActive,
     updateStudentInfomation,
+    getOneStudent,
   } = useStudent({
     url,
     setLocalLoading,
@@ -235,6 +236,8 @@ function Context({ children }) {
     setDataBook,
     setTopRankStudent,
     loadLink,
+    setFormStudent,
+    setNewStudent,
   });
   const { chartData, chartsLevel } = useHome({
     dataStudent,
@@ -552,6 +555,7 @@ function Context({ children }) {
         active,
         setActive,
         updateStudentInfomation,
+        getOneStudent,
         typeNameReport,
         setTypeNameReport,
         storeReportData,

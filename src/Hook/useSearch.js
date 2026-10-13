@@ -19,6 +19,7 @@ function useSearch({
       setSearchLoading(true);
       const res = await fetch(
         `${url}/payment/searchStudentPayment?keyword=${searchStudentPayment}&page=${page}&limit=${limit}`,
+        { credentials: "include" },
       );
       const dataStudetnPayment = await res.json();
       if (!res.ok) throw new Error(dataStudetnPayment.message);
@@ -47,6 +48,7 @@ function useSearch({
       const { page, limit } = pages.searchByDate;
       const res = await fetch(
         `${url}/payment/filterByDate?startDate=${start}&endDate=${end}&page=${page}&limit=${limit}`,
+        { credentials: "include" },
       );
 
       const data = await res.json();

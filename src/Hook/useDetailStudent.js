@@ -6,7 +6,9 @@ const useDetailStudent = ({ url }) => {
   async function getDetailStudent(student_id) {
     try {
       setDetailStudentLoading(true);
-      const res = await fetch(`${url}/detailStudent/${student_id}`);
+      const res = await fetch(`${url}/detailStudent/${student_id}`, {
+        credentials: "include",
+      });
       if (!res.ok) {
         throw new Error(`Fail to fetch detail student. Status: ${res.status}`);
       }

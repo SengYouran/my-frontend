@@ -23,7 +23,7 @@ const useExpenses = ({ url, auth, pages, loadLink }) => {
   async function getCategories() {
     try {
       setLoadingExpenses(true);
-      const res = await fetch(`${url}/categories`);
+      const res = await fetch(`${url}/categories`, { credentials: "include" });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || "Missing to fetch categories");
@@ -40,7 +40,9 @@ const useExpenses = ({ url, auth, pages, loadLink }) => {
     try {
       const { page, limit } = pages.expenses;
       setLoadingExpenses(true);
-      const res = await fetch(`${url}/expenses?page=${page}&limit=${limit}`);
+      const res = await fetch(`${url}/expenses?page=${page}&limit=${limit}`, {
+        credentials: "include",
+      });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || "Missing to fetch expenses");
@@ -56,7 +58,9 @@ const useExpenses = ({ url, auth, pages, loadLink }) => {
   async function getTypeExpense() {
     try {
       setLoadingExpenses(true);
-      const res = await fetch(`${url}/expenses/typeExpense`);
+      const res = await fetch(`${url}/expenses/typeExpense`, {
+        credentials: "include",
+      });
       if (!res.ok) {
         throw new Error("Error to fetch type expense");
       }

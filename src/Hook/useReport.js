@@ -23,14 +23,14 @@ function useReport({ url, auth, pages, book_id }) {
       const { page, limit } = pages.reporting;
       setLoadingReport(true);
 
-      // ✅ build query string
+      // build query string
       let query = `${url}/reports?typeReport=${typeNameReport}&page=${page}&limit=${limit}&employee_id=${auth?.employee_id}&book_id=${book_id}`;
 
       if (startDateRP && endDateRP) {
         query += `&start=${startDateRP}&end=${endDateRP}`;
       }
 
-      const res = await fetch(query);
+      const res = await fetch(query, { credentials: "include" });
 
       if (!res.ok) throw new Error("Fail to fetch reporting");
 
@@ -44,7 +44,7 @@ function useReport({ url, auth, pages, book_id }) {
     }
   } //score check if type = score show class under header
 
-  // ✅ download Excel
+  // download Excel
   const downloadExcel = () => {
     let link = `${url}/reports/excel?typeReport=${typeNameReport}&employee_id=${auth?.employee_id}&book_id=${book_id}`;
     if (startDateRP && endDateRP) {
@@ -54,7 +54,7 @@ function useReport({ url, auth, pages, book_id }) {
     window.open(link, "_blank");
   };
 
-  // ✅ download PDF
+  // download PDF
   const downloadPDF = () => {
     let link = `${url}/reports/pdf?typeReport=${typeNameReport}&employee_id=${auth?.employee_id}&book_id=${book_id}`;
     if (startDateRP && endDateRP) {

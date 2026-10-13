@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../Context";
 
 function Student_Table({ activeStudnet, setViews }) {
-  const { getDetailStudent, setFormStudent, updateStudentInfomation } =
-    useDataContext();//write updatestudent more
+  const { getDetailStudent, auth, getOneStudent } =
+    useDataContext(); //write updatestudent more
   const navigate = useNavigate();
   function DetailStudent(id) {
     navigate(`/students/detail/${id}`);
@@ -75,21 +75,24 @@ function Student_Table({ activeStudnet, setViews }) {
                     : "AM"}
                 </td>
                 <td className="flex items-center gap-2">
-                  <h2
-                    onClick={() => {
-                      setFormStudent(stu);
-                    }}
-                    className="bg-yellow-500 px-2 py-1 text-[14px] text-white font-medium rounded-md w-1/3 text-center cursor-pointer"
-                  >
-                    Edit
-                  </h2>
+                  {auth?.role === "Teacher" && (
+                    <h2
+                      onClick={() => {
+                        getOneStudent(stu?.student_id);
+                      }}
+                      className="transition-all  hover:bg-yellow-600 bg-yellow-500 px-2 py-1 text-[14px] text-white font-medium rounded-md w-1/3 text-center cursor-pointer
+                    "
+                    >
+                      Edit
+                    </h2>
+                  )}
                   <h2
                     onClick={() => {
                       DetailStudent(stu?.student_id);
                       setViews(true);
                       getDetailStudent(stu?.student_id);
                     }}
-                    className="text-white cursor-pointer w-1/3 text-center text-[14px] bg-green-500 m-2 font-medium px-2 py-1 rounded-md"
+                    className={`transition-all hover:bg-green-600 ${auth?.role === "Teacher" ? "w-1/3" : ""} text-white cursor-pointer text-center text-[14px] bg-green-500 m-2 font-medium px-2 py-1 rounded-md`}
                   >
                     {stu?.is_active === 1 ? "Detail" : "Deactive"}
                   </h2>

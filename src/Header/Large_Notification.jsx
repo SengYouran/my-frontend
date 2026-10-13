@@ -79,7 +79,7 @@ function Large() {
               {formatted}
             </h2>
 
-            {/* ✅ Logout fixed */}
+            {/* Logout fixed */}
             <h2
               className="text-[14px] font-medium text-gray-700 cursor-pointer border-l-2 pl-2 hover:text-red-500"
               onClick={() => {

@@ -37,6 +37,7 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
       setError(null);
       const response = await fetch(
         `${url}/employees?page=${page}&limit=${limit}`,
+        { credentials: "include" },
       );
       if (!response.ok) {
         throw new Error("Failed to fetch employees");
@@ -62,7 +63,9 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
   async function handleGetOneEmp() {
     try {
       setLoadingEmployee(true);
-      const res = await fetch(`${url}/employees/${auth?.employee_id}`);
+      const res = await fetch(`${url}/employees/${auth?.employee_id}`, {
+        credentials: "include",
+      });
       if (!res.ok) {
         throw new Error("Failed to fetch a employee");
       }
@@ -89,8 +92,6 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
       [name]: files ? files[0] : value,
     }));
   };
-
-  // ✅ CREATE
   async function handleCrateEmployee() {
     const requiredFields = [
       "emp_id",
@@ -104,7 +105,7 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
     ];
 
     if (requiredFields.some((f) => !employees[f])) {
-      return alert("Please fill required fields ❌");
+      return alert("Please fill required fields");
     }
 
     try {
@@ -123,6 +124,7 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
       const res = await fetch(`${url}/employees`, {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -138,8 +140,7 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
       setLoadingEmployee(false);
     }
   }
-
-  // ✅ UPDATE
+  // UPDATE
   async function handleUpdateEmployee(id) {
     try {
       setLoadingEmployee(true);
@@ -163,6 +164,7 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
       const res = await fetch(`${url}/employees/${id}`, {
         method: "PUT",
         body: formData,
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -181,7 +183,7 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
     }
   }
 
-  // ✅ DELETE
+  // DELETE
   async function handleDeleteEmployee(id) {
     if (!window.confirm("Are you sure you want to delete this employee?"))
       return;
@@ -190,17 +192,18 @@ function useEmployees({ url, handleGetAllTeacher, auth, pages, newStudent }) {
       setLoadingEmployee(true);
       const res = await fetch(`${url}/employees/${id}`, {
         method: "DELETE",
+        credentials:"include"
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
       await fetchEmployees();
-      alert("Deleted successfully ✅");
+      alert("Deleted successfully");
       await handleGetAllTeacher();
     } catch (err) {
       console.error(err);
-      alert("Delete failed ❌");
+      alert("Delete failed ");
     } finally {
       setLoadingEmployee(false);
     }

@@ -6,7 +6,6 @@ const useClass = ({ url, setLoading, auth }) => {
   const [className, setClassName] = useState([]);
 
   async function getClassName() {
-    setLoading(true);
     try {
       const response = await fetch(`${url}/class`);
       if (!response.ok) {
@@ -16,8 +15,6 @@ const useClass = ({ url, setLoading, auth }) => {
       setClassName(data || []);
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   }
   useEffect(() => {

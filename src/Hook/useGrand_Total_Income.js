@@ -10,7 +10,7 @@ function useGrand_Total_Income({ chartStudentPaymentAmount }) {
   const [lastMonthIncome, setLastMonthIncome] = useState(0);
   const [percentageChange, setPercentageChange] = useState(0);
 
-  // 🔥 Chart Data State
+  // Chart Data State
   const [monthlyChartData, setMonthlyChartData] = useState([]);
 
   useEffect(() => {
@@ -47,13 +47,13 @@ function useGrand_Total_Income({ chartStudentPaymentAmount }) {
         income += totalAmount;
         paid++;
 
-        // 🔥 12 Month Chart
+        // 12 Month Chart
         if (paymentDate.getFullYear() === currentYear) {
           const monthIndex = paymentDate.getMonth();
           monthlyIncome[monthIndex] += totalAmount;
         }
 
-        // 🔥 Monthly Compare
+        // Monthly Compare
         if (
           paymentDate.getMonth() === currentMonth &&
           paymentDate.getFullYear() === currentYear
@@ -122,7 +122,7 @@ function useGrand_Total_Income({ chartStudentPaymentAmount }) {
     thisMonthIncome,
     lastMonthIncome,
     percentageChange,
-    monthlyChartData, // 🔥 use this for chart
+    monthlyChartData, // use this for chart
   };
 }
 

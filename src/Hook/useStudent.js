@@ -14,6 +14,7 @@ function useStudent({
   setFormStudent,
   book_id,
   setTopRankStudent,
+  setNewStudent,
 }) {
   const [listBook, setListBook] = useState([]);
   const [listStudentAtt, setListStudentAtt] = useState([]);
@@ -50,6 +51,7 @@ function useStudent({
       setLocalLoading(true);
       const res = await fetch(
         `${url}/student/searchStudent?employee_id=${teacher_ID}&keyword=${searchStudentAt}&page=${page}&limit=${limit}`,
+        { credentials: "include" },
       );
       if (!res.ok) throw new Error("Fail to fetch search student");
       const data = await res.json();
@@ -66,7 +68,7 @@ function useStudent({
     handleSearchStudents();
   }, [searchStudentAt]);
 
-  // ---------------- FETCH FUNCTIONS ----------------
+  // ---------------- FETCH All BOOKS ----------------
   async function getAllBook() {
     try {
       setLocalLoading(true);
@@ -96,6 +98,26 @@ function useStudent({
       setStudentPaginate(data.pagination);
       setDataStudentSearch(data.data);
       set_total_students_teacher(data.totalStudentUnderTeacher);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLocalLoading(false);
+    }
+  }
+
+  //FETCH ONE STUDNET TO UPDATE DATA
+  async function getOneStudent(id) {
+    try {
+      setLocalLoading(true);
+      const res = await fetch(`${url}/student/${id}`, {
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error("Fail to fetch one student by id");
+      }
+      setFormStudent(data);
+      setNewStudent(true);
     } catch (err) {
       console.error(err);
     } finally {
@@ -147,6 +169,7 @@ function useStudent({
       setLocalLoading(true);
       const res = await fetch(
         `${url}/topstudentrank?teacher=${auth?.employee_id}`,
+        { credentials: "include" },
       );
       if (!res.ok) throw new Error("Fail to fetch top student rankinf");
       const data = await res.json();
@@ -248,18 +271,19 @@ function useStudent({
       setLocalLoading(false);
     }
   }
-
   async function updateStudentInfomation(id) {
     try {
       setLocalLoading(true);
       const res = await fetch(`${url}/student/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "appliction/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formStudent),
+        credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) throw new Error("Fail to update the information student's");
       await getAllInfoStudent();
+      setNewStudent(false);
     } catch (err) {
       console.error(err);
     } finally {
@@ -416,7 +440,13 @@ function useStudent({
 
     //tab active
     active,
-    setActive,updateStudentInfomation
+    setActive,
+
+    //update student
+    updateStudentInfomation,
+
+    //get One Student
+    getOneStudent,
   };
 }
 

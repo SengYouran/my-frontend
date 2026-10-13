@@ -54,6 +54,7 @@ function useAccounting({
       setLoadingAccounting(true);
       const res = await fetch(
         `${url}/payment/searchpaidunpaid?keyword=${searchPaidUnpaid}&page=${page}&limit=${limit}`,
+        { credentials: "include" },
       );
       const data = await res.json();
       if (!res.ok) throw new Error("Faid to fetch student paid and unpaid");
@@ -177,7 +178,7 @@ function useAccounting({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payment),
-        credentials: "include", // ✅ send JWT cookie
+        credentials: "include", // send JWT cookie
       });
 
       const data = await res.json();
@@ -212,6 +213,7 @@ function useAccounting({
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(payment),
       });
 
@@ -246,7 +248,9 @@ function useAccounting({
     searchStudentPaidUnpaid,
     paginate,
     setPaginate,
-    updatePaymentStudent,changeEdit, setChangeEdit
+    updatePaymentStudent,
+    changeEdit,
+    setChangeEdit,
   };
 }
 

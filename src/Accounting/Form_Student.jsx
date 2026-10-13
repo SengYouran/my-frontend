@@ -30,17 +30,20 @@ function Form_Student() {
     listEmployee,
     listBook,
     loading,
+    updateStudentInfomation,localLoading
   } = useDataContext();
   const inputStyle =
     "w-full border rounded px-2 py-1 outline-none focus:ring-2 focus:ring-purple-400";
 
   const teachers = useMemo(() => {
-    return listEmployee?.results?.filter((emp) => emp.roles === "Teacher");
+    return listEmployee?.results?.filter((emp) => emp?.roles === "Teacher");
   }, [listEmployee]);
 
   return (
     <div className="bg-white p-4 rounded-md shadow-sm">
-      <h2 className="text-xl font-bold mb-3">Add new Student</h2>
+      <h2 className="text-xl font-bold mb-3">
+        {formStudent ? "Edit student" : "Add new Student"}
+      </h2>
 
       <form className="flex flex-col gap-4">
         {/* Gender */}
@@ -124,9 +127,7 @@ function Form_Student() {
               onChange={handleChangeStudent}
               className={inputStyle}
               placeholder="ID student crad"
-            >
-              
-            </input>
+            ></input>
           </div>
         </div>
 
@@ -229,7 +230,7 @@ function Form_Student() {
               ref={refStudet}
               type="date"
               name="dob"
-              value={formStudent?.dob ?? ""}
+              value={formStudent?.dob.split("T")[0] ?? ""}
               onChange={handleChangeStudent}
               onClick={() => refStudet.current?.showPicker?.()}
               className={inputStyle}
@@ -242,7 +243,7 @@ function Form_Student() {
               ref={refStudetCreatedAt}
               type="date"
               name="createdAt"
-              value={formStudent?.createdAt ?? ""}
+              value={formStudent?.createdAt.split("T")[0] ?? ""}
               onChange={handleChangeStudent}
               onClick={() => refStudetCreatedAt.current?.showPicker?.()}
               className={inputStyle}
@@ -274,17 +275,27 @@ function Form_Student() {
             className="w-full border rounded px-2 py-2 outline-none"
           />
         </div>
-
-        {/* Button */}
-        <button
-          type="button"
-          onClick={() => {
-            handleInsertStudent();
-          }}
-          className="cursor-pointer bg-gradient-to-r from-blue-400 via-purple-500 to-purple-600 text-white py-2 rounded-md font-medium"
-        >
-          {loading ? "Saving..." : "Save"}
-        </button>
+        {formStudent ? (
+          <button
+            type="button"
+            onClick={() => {
+              updateStudentInfomation(formStudent?.student_id);
+            }}
+            className="cursor-pointer bg-gradient-to-r from-blue-400 via-purple-500 to-purple-600 text-white py-2 rounded-md font-medium"
+          >
+            {localLoading ? "Updating..." : "Update"}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              handleInsertStudent();
+            }}
+            className="cursor-pointer bg-gradient-to-r from-blue-400 via-purple-500 to-purple-600 text-white py-2 rounded-md font-medium"
+          >
+            {loading ? "Saving..." : "Save"}
+          </button>
+        )}
       </form>
     </div>
   );
